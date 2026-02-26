@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章管理 - nanobot Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .admin-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+    
+    .admin-title {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    
+    .btn-secondary {
+      padding: 10px 20px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn-secondary:hover {
+      background: var(--bg-secondary);
+    }
+    
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .article-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+    
+    .article-item:hover {
+      box-shadow: var(--shadow);
+    }
+    
+    .article-info {
+      flex: 1;
+    }
+    
+    .article-item-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .article-item-meta {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    
+    .article-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-icon {
+      padding: 8px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .btn-icon:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .btn-icon.delete:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      width: 90%;
+      max-width: 700px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.9);
+      transition: var(--transition);
+    }
+    
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
+    
+    .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+    
+    .modal-close:hover {
+      color: var(--text);
+    }
+    
+    .modal-body {
+      padding: 24px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-secondary);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.875rem;
+      transition: var(--transition);
+    }
+    
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    
+    .form-textarea {
+      min-height: 300px;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    
+    .form-help {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    
+    .login-box {
+      background: var(--bg-secondary);
+      padding: 40px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    
+    .login-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+    
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+    }
+    
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .article-item {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      
+      .article-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Overlay -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <h2 class="login-title">🔐 管理员登录</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <input type="password" class="form-input" id="adminPassword" placeholder="输入管理员密码" required>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%;">登录</button>
+        <p class="form-help" style="margin-top: 16px;">默认密码：nanobot</p>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Admin Content -->
+  <div class="admin-container" id="adminContent" style="display: none;">
+    <div class="admin-header">
+      <h1 class="admin-title">📝 文章管理</h1>
+      <div style="display: flex; gap: 12px;">
+        <a href="index.html" class="btn-secondary">← 返回首页</a>
+        <button class="btn-primary" id="newArticleBtn">+ 新建文章</button>
+      </div>
+    </div>
+    
+    <div class="article-list" id="articleList">
+      <!-- Articles will be loaded dynamically -->
+    </div>
+    
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state-icon">📄</div>
+      <h3>暂无文章</h3>
+      <p>点击右上角"新建文章"开始创作</p>
+    </div>
+  </div>
+  
+  <!-- Article Modal -->
+  <div class="modal-overlay" id="articleModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">新建文章</h2>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="articleForm">
+          <input type="hidden" id="articleId">
+          
+          <div class="form-group">
+            <label class="form-label">标题</label>
+            <input type="text" class="form-input" id="articleTitle" required>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">分类</label>
+              <select class="form-select" id="articleCategory" required>
+                <option value="tech">技术</option>
+                <option value="life">生活</option>
+                <option value="creative">创意</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">封面图 URL</label>
+              <input type="text" class="form-input" id="articleCover" placeholder="https://...">
+              <p class="form-help">留空使用默认渐变背景</p>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">标签（逗号分隔）</label>
+            <input type="text" class="form-input" id="articleTags" placeholder="JavaScript, Web, 教程">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">内容（Markdown 格式）</label>
+            <textarea class="form-textarea" id="articleContent" required></textarea>
+            <p class="form-help">支持 Markdown 语法，包括标题、列表、代码块等</p>
+          </div>
+          
+          <div style="display: flex; gap: 12px; justify-content: flex-end;">
+            <button type="button" class="btn-secondary" id="cancelBtn">取消</button>
+            <button type="submit" class="btn-primary">保存文章</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Simple admin script
+    const ADMIN_PASSWORD = 'nanobot';
+    
+    // Check login
+    function checkLogin() {
+      const isLoggedIn = localStorage.getItem('adminLoggedIn');
+      if (isLoggedIn === 'true') {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('adminContent').style.display = 'block';
+        loadArticles();
+      }
+    }
+    
+    // Login form
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const password = document.getElementById('adminPassword').value;
+      if (password === ADMIN_PASSWORD) {
+        localStorage.setItem('adminLoggedIn', 'true');
+        checkLogin();
+      } else {
+        alert('密码错误！');
+      }
+    });
+    
+    // Load articles
+    function loadArticles() {
+      const articles = JSON.parse(localStorage.getItem('articles') || '[]');
+      const articleList = document.getElementById('articleList');
+      const emptyState = document.getElementById('emptyState');
+      
+      if (articles.length === 0) {
+        articleList.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+      }
+      
+      articleList.style.display = 'flex';
+      emptyState.style.display = 'none';
+      
+      articleList.innerHTML = articles.map((article, index) => `
+        <div class="article-item">
+          <div class="article-info">
+            <div class="article-item-title">${article.title}</div>
+            <div class="article-item-meta">
+              ${article.category} • ${article.tags || '无标签'} • ${new Date(article.date).toLocaleDateString('zh-CN')}
+            </div>
+          </div>
+          <div class="article-actions">
+            <button class="btn-icon" onclick="editArticle(${index})" title="编辑">✏️</button>
+            <button class="btn-icon delete" onclick="deleteArticle(${index})" title="删除">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // Edit article
+    function editArticle(index) {
+      const articles = JSON.parse(localStorage.getItem('articles') || '[]');
+      const article = articles[index];
+      
+      document.getElementById('articleId').value = index;
+      document.getElementById('articleTitle').value = article.title;
+      document.getElementById('articleCategory').value = article.category;
+      document.getElementById('articleCover').value = article.cover || '';
+      document.getElementById('articleTags').value = article.tags || '';
+      document.getElementById('articleContent').value = article.content;
+      document.getElementById('modalTitle').textContent = '编辑文章';
+      
+      document.getElementById('articleModal').classList.add('active');
+    }
+    
+    // Delete article
+    function deleteArticle(index) {
+      if (confirm('确定要删除这篇文章吗？')) {
+        const articles = JSON.parse(localStorage.getItem('articles') || '[]');
+        articles.splice(index, 1);
+        localStorage.setItem('articles', JSON.stringify(articles));
+        loadArticles();
+      }
+    }
+    
+    // Modal controls
+    document.getElementById('newArticleBtn').addEventListener('click', function() {
+      document.getElementById('articleForm').reset();
+      document.getElementById('articleId').value = '';
+      document.getElementById('modalTitle').textContent = '新建文章';
+      document.getElementById('articleModal').classList.add('active');
+    });
+    
+    document.getElementById('modalClose').addEventListener('click', function() {
+      document.getElementById('articleModal').classList.remove('active');
+    });
+    
+    document.getElementById('cancelBtn').addEventListener('click', function() {
+      document.getElementById('articleModal').classList.remove('active');
+    });
+    
+    // Save article
+    document.getElementById('articleForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const id = document.getElementById('articleId').value;
+      const article = {
+        title: document.getElementById('articleTitle').value,
+        category: document.getElementById('articleCategory').value,
+        cover: document.getElementById('articleCover').value,
+        tags: document.getElementById('articleTags').value,
+        content: document.getElementById('articleContent').value,
+        date: new Date().toISOString()
+      };
+      
+      let articles = JSON.parse(localStorage.getItem('articles') || '[]');
+      
+      if (id) {
+        articles[id] = article;
+      } else {
+        articles.unshift(article);
+      }
+      
+      localStorage.setItem('articles', JSON.stringify(articles));
+      document.getElementById('articleModal').classList.remove('active');
+      loadArticles();
+      
+      alert('文章已保存！');
+    });
+    
+    // Initialize
+    checkLogin();
+  </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="nanobot 现代化博客 - 技术分享、生活感悟、创意灵感">
+  <meta name="keywords" content="博客，技术，生活，创意，nanobot">
+  <meta name="author" content="nanobot">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="nanobot Blog">
+  <meta property="og:description" content="现代化博客系统 - 技术分享、生活感悟、创意灵感">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wanghui-huang.github.io/blog-nanobot/">
+  
+  <title>nanobot Blog - 现代化博客</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="logo">🚀 nanobot</a>
+        
+        <div class="search-container">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="searchInput" placeholder="搜索文章...">
+        </div>
+        
+        <nav class="nav">
+          <a href="/" class="nav-link active">首页</a>
+          <a href="#categories" class="nav-link">分类</a>
+          <a href="#tags" class="nav-link">标签</a>
+          <a href="admin.html" class="nav-link">管理</a>
+          
+          <div class="theme-toggle">
+            <button class="theme-btn active" data-theme="light" title="浅色模式">☀️</button>
+            <button class="theme-btn" data-theme="dark" title="深色模式">🌙</button>
+            <button class="theme-btn" data-theme="auto" title="跟随系统">🔄</button>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>欢迎来到 nanobot 博客</h1>
+      <p>探索技术、分享生活、激发创意 —— 在这里发现更多精彩内容</p>
+    </div>
+  </section>
+  
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Filters -->
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="tech">技术</button>
+      <button class="filter-btn" data-filter="life">生活</button>
+      <button class="filter-btn" data-filter="creative">创意</button>
+    </div>
+    
+    <!-- Article Grid -->
+    <div class="article-grid" id="articleGrid">
+      <!-- Articles will be loaded dynamically -->
+    </div>
+    
+    <!-- Comments Section -->
+    <section class="comments-section">
+      <h2 class="comments-title">💬 留言板</h2>
+      
+      <form class="comment-form" id="commentForm">
+        <input type="text" class="comment-input" id="commentName" placeholder="你的名字" required>
+        <textarea class="comment-textarea" id="commentText" placeholder="写下你的留言..." required></textarea>
+        <button type="submit" class="btn-primary">发布留言</button>
+      </form>
+      
+      <div class="comments-list" id="commentsList">
+        <!-- Comments will be loaded dynamically -->
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 nanobot Blog. Built with ❤️ and modern web technologies.</p>
+      <p style="margin-top: 8px;">
+        <a href="feed.xml" style="color: var(--primary); text-decoration: none;">📡 RSS 订阅</a>
+      </p>
+    </div>
+  </footer>
+  
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

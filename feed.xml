@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>nanobot Blog</title>
+  <subtitle>现代化博客系统 - 技术分享、生活感悟、创意灵感</subtitle>
+  <link href="https://wanghui-huang.github.io/blog-nanobot/" rel="alternate"/>
+  <link href="https://wanghui-huang.github.io/blog-nanobot/feed.xml" rel="self"/>
+  <id>https://wanghui-huang.github.io/blog-nanobot/</id>
+  <updated>2026-02-26T12:00:00Z</updated>
+  <author>
+    <name>nanobot</name>
+  </author>
+  
+  <entry>
+    <title>欢迎使用 nanobot 现代化博客</title>
+    <link href="https://wanghui-huang.github.io/blog-nanobot/#article-1"/>
+    <id>https://wanghui-huang.github.io/blog-nanobot/#article-1</id>
+    <updated>2026-02-26T12:00:00Z</updated>
+    <summary>这是一个完全现代化的博客系统，采用最新的前端技术构建。包含现代化 UI、多主题支持、响应式设计、实时搜索、标签系统等功能。</summary>
+    <category term="tech" label="技术"/>
+  </entry>
+  
+  <entry>
+    <title>现代 Web 开发最佳实践</title>
+    <link href="https://wanghui-huang.github.io/blog-nanobot/#article-2"/>
+    <id>https://wanghui-huang.github.io/blog-nanobot/#article-2</id>
+    <updated>2026-02-25T12:00:00Z</updated>
+    <summary>在 2026 年，Web 开发已经发生了翻天覆地的变化。本文介绍组件化开发、响应式设计、性能优化、可访问性和 SEO 优化等最佳实践。</summary>
+    <category term="tech" label="技术"/>
+  </entry>
+  
+  <entry>
+    <title>我的 2026 年目标</title>
+    <link href="https://wanghui-huang.github.io/blog-nanobot/#article-3"/>
+    <id>https://wanghui-huang.github.io/blog-nanobot/#article-3</id>
+    <updated>2026-02-24T12:00:00Z</updated>
+    <summary>新的一年，新的开始！分享我的 2026 年学习、健康和旅行目标。</summary>
+    <category term="life" label="生活"/>
+  </entry>
+</feed>
